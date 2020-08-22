@@ -1,18 +1,22 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>to-do-app</h1>
+    <p v-for="(toDo, i) in toDoList" :key="i">{{ toDo }}</p>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      toDoList: ['item 1', 'item 2'],
+    }
+  },
   components: {
-    HelloWorld
-  }
+
+  },
 }
 </script>
 
