@@ -1,33 +1,22 @@
 <template>
-  <div id="app">
-    <v-col cols="12" sm="6" md="3">
-      <h1>to-do-list</h1>
-      <v-text-field 
-        label="Enter new to-do item" 
-        name="newItem"
-        solo
-      ></v-text-field><br>
-      <app-list-item v-for="(item, i) in list" :key="i">
-        <v-text-field
-          solo
-          :value="item"
-          disabled
-        >
-
-        </v-text-field>
-      </app-list-item>
-    </v-col>
-  </div>
+  <!-- <div id="app"> -->
+    <v-app>
+      <v-main>
+        <app-todo-list></app-todo-list>
+      </v-main>
+    </v-app>
+  <!-- </div> -->
 </template>
 
 <script>
-import ListItem from './components/ListItem';
+// import ListItem from './components/ListItem';
+import TodoList from './components/TodoList.vue';
 
 export default {
   name: 'App',
 
   components: {
-    'app-list-item': ListItem,
+    'app-todo-list': TodoList,
   },
 
   data: () => ({
@@ -44,6 +33,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
