@@ -1,23 +1,40 @@
 <template>
   <div id="app">
-    <h1>to-do-app</h1>
-    <p v-for="(toDo, i) in toDoList" :key="i">{{ toDo }}</p>
+    <v-col cols="12" sm="6" md="3">
+      <h1>to-do-list</h1>
+      <v-text-field 
+        label="Enter new to-do item" 
+        name="newItem"
+        solo
+      ></v-text-field><br>
+      <app-list-item v-for="(item, i) in list" :key="i">
+        <v-text-field
+          solo
+          :value="item"
+          disabled
+        >
+
+        </v-text-field>
+      </app-list-item>
+    </v-col>
   </div>
 </template>
 
 <script>
+import ListItem from './components/ListItem';
 
 export default {
   name: 'App',
-  data() {
-    return {
-      toDoList: ['item 1', 'item 2'],
-    }
-  },
-  components: {
 
+  components: {
+    'app-list-item': ListItem,
   },
-}
+
+  data: () => ({
+    list: ['item 1', 'item 2', 'item 3'],
+    currentTodo: ''
+  }),
+};
 </script>
 
 <style>
