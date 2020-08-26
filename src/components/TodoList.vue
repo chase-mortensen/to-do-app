@@ -16,8 +16,8 @@
         class="elevation-12"
         >
           <v-toolbar
-            color="deep-purple accent-4"
-            dark
+            color="blue-grey"
+            light
           >
             <v-toolbar-title>to-do-app <small>(click on list items to edit)</small></v-toolbar-title>
             <v-spacer></v-spacer>
@@ -45,7 +45,9 @@
           </v-toolbar>
           
           <div v-if="listState !== 'complete'">
-          <v-list>
+          <v-list
+            color="blue-grey lighten-5"
+          >
             <v-text-field
             solo
             placeholder="Enter new item here"
@@ -75,10 +77,10 @@
               <v-list-item-icon>
                 <div class="my-2">
                   <v-btn class="mx-2" fab dark small 
-                  color="error"
+                  color="red darken-4"
                   @click="removeItem(item.id)"
                   >
-                    <v-icon dark>mdi-delete</v-icon>
+                    <v-icon light>mdi-delete</v-icon>
                   </v-btn>
                 </div>
               </v-list-item-icon>
@@ -86,7 +88,10 @@
           </v-list>
           </div>
           <v-divider v-if="separatorNeeded"></v-divider>
-          <v-list v-if="listState !== 'pending'">
+          <v-list 
+            v-if="listState !== 'pending'"
+            color="blue-grey lighten-4"  
+          >
             <v-list-item
               v-for="item in todoItems.filter(item => item.complete)"
               :key="item.id"
@@ -115,7 +120,7 @@
               <v-list-item-icon>
                 <div class="my-2">
                   <v-btn class="mx-2" fab dark small 
-                    color="error"
+                    color="red darken-4"
                     @click="removeItem(item.id)"
                   >
                     <v-icon dark>mdi-delete</v-icon>
