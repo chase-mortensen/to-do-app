@@ -2,8 +2,10 @@ import Vue from 'vue';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import Vuex from 'vuex';
+import VueResource from 'vue-resource';
 
 Vue.use(Vuex);
+Vue.use(VueResource);
 
 const store = new Vuex.Store({
   state: {
@@ -20,12 +22,15 @@ const store = new Vuex.Store({
   mutations: {
     addItem (state) {
       if (state.newItem.trim()) {
-        state.todoItems.push({ id: state.id++, complete: false, text: state.newItem });
+        state.todoItems.push({ id: state.id++, editing: false, complete: false, text: state.newItem });
         state.newItem = '';
       }
     },
     focusItem (state, { item }) {
       state.todoItems.filter(todoItem => todoItem.id === item.id)[0].editing = true;      
+    },
+    loadTodoItems (state, { todoItems }) {
+      state.todoItems = todoItems;
     },
     removeItem (state, { id }) {
       state.todoItems = state.todoItems.filter(item => item.id !== id);

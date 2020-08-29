@@ -5,7 +5,7 @@
     style="background-color: #263238"
   >
     <v-row
-      align="center"
+      align="start"
       justify="center"
     >
       <v-col
@@ -35,11 +35,29 @@ import TodoListToolbar from './TodoListToolbar.vue';
 import TodoListNewInput from './TodoListNewInput.vue';
 import TodoListSubList from './TodoListSubList.vue';
 
-  export default {
-    components: {
-      'app-todo-list-toolbar': TodoListToolbar,
-      'app-todo-list-new-input': TodoListNewInput,
-      'app-todo-list-sub-list': TodoListSubList,
-    },
-  }
+export default {
+  components: {
+    'app-todo-list-toolbar': TodoListToolbar,
+    'app-todo-list-new-input': TodoListNewInput,
+    'app-todo-list-sub-list': TodoListSubList,
+  },
+  created() {
+    this.$http.get('https://to-do-app-e6306.firebaseio.com/data.json')
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        const todoItems = [];
+        for (let key in data) {
+          todoItems.push(data[key]);
+        }
+        this.loadTodoItems(todoItems);
+      });
+  },
+  methods: {
+    loadTodoItems (todoItems) {
+      this.$store.commit('loadTodoItems', { todoItems }); 
+    }
+  },
+}
 </script>

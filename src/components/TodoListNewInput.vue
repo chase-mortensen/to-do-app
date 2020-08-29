@@ -13,7 +13,13 @@
 export default {
   methods: {
     addItem () {
-      this.$store.commit('addItem')
+      this.$store.commit('addItem');
+      this.$http.put('https://to-do-app-e6306.firebaseio.com/data.json', this.$store.state.todoItems)
+        .then(response => {
+          console.log(response);
+        }, error => {
+          console.log(error);
+        });
     },
     updateNewItem (item) {
       this.$store.commit('updateNewItem', { item });
