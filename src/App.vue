@@ -1,11 +1,11 @@
 <template>
-  <!-- <div id="app"> -->
+  <div id="app">
     <v-app>
       <v-main>
         <app-todo-list></app-todo-list>
       </v-main>
     </v-app>
-  <!-- </div> -->
+  </div>
 </template>
 
 <script>

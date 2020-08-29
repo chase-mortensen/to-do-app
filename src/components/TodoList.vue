@@ -16,120 +16,14 @@
         <v-card
         class="elevation-12"
         >
-          <v-toolbar
-            color="blue-grey"
-            light
-          >
-            <v-toolbar-title>to-do-app <small>(click on list items to edit)</small></v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn 
-              small 
-              outlined
-              color="normal"
-              @click="listState='all'"
-            >All</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn 
-              small 
-              outlined
-              color="normal"
-              @click="listState='pending'"
-            >Pending</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn 
-              small 
-              outlined
-              color="normal"
-              @click="listState='complete'"
-            >Complete</v-btn>
-
-          </v-toolbar>
-          
-          <div v-if="listState !== 'complete'">
-          <v-list
-              color="blue-grey lighten-5"
-          >
-            <v-text-field
-            solo
-            placeholder="Enter new item here"
-            v-model="newItem"
-            @keyup.enter="addItem"
-          ></v-text-field>
-            <v-list-item
-            v-for="item in allPending"
-            :key="item.id"
-            >
-              <v-list-item-avatar>
-                <v-checkbox v-model="item.complete"></v-checkbox>
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-textarea
-                :value="item.text"
-                :shaped="item.editing"
-                :filled="item.editing"
-                auto-grow
-                rows="1"
-                :outlined="item.editing"
-                @click="focusItem(item)"
-                @input="setText(item, $event)"
-                @blur="item.editing=false"
-                ></v-textarea>
-              </v-list-item-content>
-              <v-list-item-icon>
-                <div class="my-2">
-                  <v-btn class="mx-2" fab dark small 
-                  color="red darken-4"
-                  @click="removeItem(item.id)"
-                  >
-                    <v-icon light>mdi-delete</v-icon>
-                  </v-btn>
-                </div>
-              </v-list-item-icon>
-            </v-list-item>
-          </v-list>
+          <app-todo-list-toolbar></app-todo-list-toolbar>
+          <div v-show="this.$store.state.listState !== 'complete'">
+            <app-todo-list-new-input></app-todo-list-new-input>
+            <app-todo-list-sub-list :isPending="true"></app-todo-list-sub-list>
           </div>
-          <v-divider v-if="separatorNeeded"></v-divider>
-          <v-list 
-            v-if="listState !== 'pending'"
-            color="blue-grey lighten-4"  
-          >
-            <v-list-item
-              v-for="item in allComplete"
-              :key="item.id"
-            >
-              <v-list-item-avatar>
-                <v-checkbox v-model="item.complete"></v-checkbox>
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <!-- <v-list-item-title 
-                style="text-decoration: line-through"
-                v-text="item.text"></v-list-item-title>
-                <p>{{ item.editing }}</p> -->
-                <v-textarea
-                :style="item.editing ? '' : 'text-decoration: line-through'"
-                :value="item.text"
-                :shaped="item.editing"
-                :filled="item.editing"
-                auto-grow
-                rows="1"
-                :outlined="item.editing"
-                @click="focusItem(item)"
-                @input="setText(item, $event)"
-                @blur="item.editing = false"
-                ></v-textarea>
-              </v-list-item-content>
-              <v-list-item-icon>
-                <div class="my-2">
-                  <v-btn class="mx-2" fab dark small 
-                    color="red darken-4"
-                    @click="removeItem(item.id)"
-                  >
-                    <v-icon dark>mdi-delete</v-icon>
-                  </v-btn>
-                </div>
-              </v-list-item-icon>
-            </v-list-item>
-          </v-list>
+          <div v-show="this.$store.state.listState !== 'pending'">
+            <app-todo-list-sub-list :isPending="false"></app-todo-list-sub-list>
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -137,50 +31,15 @@
 </template>
 
 <script>
+import TodoListToolbar from './TodoListToolbar.vue';
+import TodoListNewInput from './TodoListNewInput.vue';
+import TodoListSubList from './TodoListSubList.vue';
+
   export default {
-    data: () => ({
-      listState: 'all',
-      newItem: '',
-      id: 4,
-      todoItems: [
-        { id: 0, editing: false, complete: false, text: 'item 1' },
-        { id: 1, editing: false, complete: false, text: 'item 2' },
-        { id: 2, editing: false, complete: true, text: 'item 3', },
-        { id: 3, editing: false, complete: true, text: 'item 4' },
-      ],
-    }),
-    computed: {
-      allPending() {
-        return this.todoItems.filter(item => !item.complete)
-      },
-      allComplete() {
-        return this.todoItems.filter(item => item.complete)
-      },
-      separatorNeeded() {
-        const len = this.todoItems.filter(item => item.complete).length;
-        return !(this.todoItems.length === len || len === 0);
-      }
+    components: {
+      'app-todo-list-toolbar': TodoListToolbar,
+      'app-todo-list-new-input': TodoListNewInput,
+      'app-todo-list-sub-list': TodoListSubList,
     },
-    methods: {
-      addItem() {
-        if (this.newItem.trim()) {
-          this.todoItems.push({ id: this.id++, complete: false, text: this.newItem });
-          this.newItem = '';
-        }
-      },
-      removeItem(id) {
-        this.todoItems = this.todoItems.filter(item => item.id !== id)
-        console.log(this.todoItems);
-      },
-      focusItem(item) {
-        console.log('focusing...');
-        item.editing = true;
-      },
-      setText(item, event) {
-        if (event) {
-          item.text = event;
-        }
-      }
-    }
   }
 </script>
