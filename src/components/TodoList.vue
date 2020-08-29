@@ -2,6 +2,7 @@
   <v-container
     class="fill-height"
     fluid
+    style="background-color: #263238"
   >
     <v-row
       align="center"
@@ -46,7 +47,7 @@
           
           <div v-if="listState !== 'complete'">
           <v-list
-            color="blue-grey lighten-5"
+              color="blue-grey lighten-5"
           >
             <v-text-field
             solo
@@ -55,8 +56,8 @@
             @keyup.enter="addItem"
           ></v-text-field>
             <v-list-item
-              v-for="item in todoItems.filter(item => !item.complete)"
-              :key="item.id"
+            v-for="item in allPending"
+            :key="item.id"
             >
               <v-list-item-avatar>
                 <v-checkbox v-model="item.complete"></v-checkbox>
@@ -93,7 +94,7 @@
             color="blue-grey lighten-4"  
           >
             <v-list-item
-              v-for="item in todoItems.filter(item => item.complete)"
+              v-for="item in allComplete"
               :key="item.id"
             >
               <v-list-item-avatar>
@@ -149,6 +150,12 @@
       ],
     }),
     computed: {
+      allPending() {
+        return this.todoItems.filter(item => !item.complete)
+      },
+      allComplete() {
+        return this.todoItems.filter(item => item.complete)
+      },
       separatorNeeded() {
         const len = this.todoItems.filter(item => item.complete).length;
         return !(this.todoItems.length === len || len === 0);
