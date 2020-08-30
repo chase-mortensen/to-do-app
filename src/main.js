@@ -22,7 +22,7 @@ const store = new Vuex.Store({
   mutations: {
     addItem (state) {
       if (state.newItem.trim()) {
-        state.todoItems.push({ id: state.id++, editing: false, complete: false, text: state.newItem });
+        state.todoItems.push({ id: state.id, editing: false, complete: false, text: state.newItem });
         state.newItem = '';
       }
     },
@@ -32,6 +32,10 @@ const store = new Vuex.Store({
     loadTodoItems (state, { todoItems }) {
       state.todoItems = todoItems;
     },
+    loadId (state, { id }) {
+      state.id = ++id;
+      console.log('loaded id ', state.id);
+    },
     removeItem (state, { id }) {
       state.todoItems = state.todoItems.filter(item => item.id !== id);
     },
@@ -39,6 +43,9 @@ const store = new Vuex.Store({
       if (event) {
         state.todoItems.filter(todoItem => todoItem.id === item.id)[0].text = event;
       }
+    },
+    updateId (state) {
+      state.id++;
     },
     unfocusItem (state, { item }) {
       state.todoItems.filter(todoItem => todoItem.id === item.id)[0].editing = false; 

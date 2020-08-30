@@ -53,10 +53,20 @@ export default {
         }
         this.loadTodoItems(todoItems);
       });
+    this.$http.get('https://to-do-app-e6306.firebaseio.com/id.json')
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        this.loadId(data);
+      });
   },
   methods: {
     loadTodoItems (todoItems) {
       this.$store.commit('loadTodoItems', { todoItems }); 
+    },
+    loadId (id) {
+      this.$store.commit('loadId', { id }); 
     }
   },
 }
