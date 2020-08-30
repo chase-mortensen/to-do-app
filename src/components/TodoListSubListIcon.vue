@@ -18,9 +18,9 @@ export default {
       this.$store.commit('removeItem', { id });
       this.$http.put('https://to-do-app-e6306.firebaseio.com/data.json', this.$store.state.todoItems)
       .then(response => {
-        console.log(response);
+        // console.log(response);
       }, error => {
-        console.log(error);
+        // console.log(error);
       });
     },
   },

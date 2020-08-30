@@ -34,7 +34,6 @@ const store = new Vuex.Store({
     },
     loadId (state, { id }) {
       state.id = ++id;
-      console.log('loaded id ', state.id);
     },
     removeItem (state, { id }) {
       state.todoItems = state.todoItems.filter(item => item.id !== id);
